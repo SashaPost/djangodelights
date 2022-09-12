@@ -1,0 +1,29 @@
+<!-- djangodelights/inventory/templates/base.html -->
+<!-- Base template -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width", initial-scale=1>
+    {% comment %} <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css"> {% endcomment %}
+    <title>Django Delights</title>
+</head>
+
+<body>
+    <div>
+        <h1 onclick="location.href='{% url "index" %}'">
+            Got to Django Delights' Main Page
+        </h1>
+    </div>
+    <div>
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <div>
+        <a href='{% url 'index' %}'>Back to the Main Page</a>
+    </div>
+</body>
+
+</html>

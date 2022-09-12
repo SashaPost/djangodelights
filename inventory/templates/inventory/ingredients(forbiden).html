@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<h1>Ingredient's List</h1>
+
+<ul>
+    {% for object in object_list %}
+    <h3>{{ object.name }}'s contents</h3>
+    <li>{{ object.quantity }}</li>
+    <li>{{ object.unit }}</li>
+    <li>{{ object.unit_price }}</li>
+
+    <hr>
+
+    {% empty %}
+    <li>No objects yet.</li>
+    {% endfor %}
+</ul> 
+
+{% endblock %}
