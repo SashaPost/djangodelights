@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Revenue: ${{ revenue.dirty_income }}</p>
+<p>Total Cost: ${{ revenue.menu_ingredients_price }}</p>
+<p>Profit: ${{ revenue.profit }}
+    {% if revenue.profit < 0 %}
+        Things look blue. Maybe it's time to close?..
+    {% endif %}
+</p>
+
+{% if purchase_list %}
+    <table border='0'>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Menu Item</th>
+                <th>Price</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchase_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ purchase.menu_item }}</td>
+                <td>${{ purchase.menu_item.price }}</td>
+                <td>{{ purchase.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h3>Nothing was sold yet</h3>
+{% endif %}
+
+{% comment %} {{ revenue }} {% endcomment %}
+{{ revenue.dirty_income }}
+
+{% endblock %}

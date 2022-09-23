@@ -1,0 +1,31 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for purchase in all_purchases %}
+<ul>    
+    <li>{{ purchase }}</li>
+</ul>
+{% endfor %}
+<hr>
+
+{% comment %} 
+{% for req in menu_reqs %}
+    <ul>
+        <li>{{ req.ingredient }} {{ req.quantity }}</li>
+    </ul>
+{% endfor %} {% endcomment %}
+
+<div>
+    <p>Dirty income: {{ dirty_income }}</p> 
+    <p>Ingredients' cost: {{ menu_ingredients_price }}</p>
+</div>
+
+{% if dirty_income <= menu_ingredients_price %}
+    <p>Things look blue. Maybe it's time to close?..</p>
+{% else %}
+    <p>Clean income: {{ dirty_income }} - {{ menu_ingredients_price }} </p>
+{% endif %}
+
+{% endblock %}

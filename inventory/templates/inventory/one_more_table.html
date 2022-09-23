@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Ingredients Table</h1>
+
+<input
+    type="button"
+    value="Add an Ingredient"
+    onclick='location.href="add_ingredient"'
+/>
+
+<table border="0">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Units</th>
+            <th>Price per Unit</th>
+            <th>Item ID</th>
+            <th colspan="2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in ingredients %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.unit }}</td>
+            <td>{{ item.unit_price }}</td>
+            <td>{{ item.id }}</td>
+            <td><a href="update/{{ item.id }}">Edit</a></td>
+            <td><a href="delete/{{ item.id }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        
+    </tfoot>
+</table>
+
+{% comment %} <p><a href="add_ingredient">Add an Ingredient</a></p> {% endcomment %}
+
+{% endblock %}

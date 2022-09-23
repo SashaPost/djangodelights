@@ -55,6 +55,14 @@ ROOT_URLCONF = 'djangodelights.urls'
 
 TEMPLATES = [
     {
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "environment": "djangodelights.jinja2.environment"
+        }
+    },
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
@@ -107,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Istanbul'
+TIME_ZONE = 'Europe/Zaporozhye'
 
 USE_I18N = True
 

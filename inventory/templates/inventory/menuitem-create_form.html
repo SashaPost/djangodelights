@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input 
+        type="submit" 
+        value="Save"
+    >
+    <input 
+        type="button" 
+        value="Cancel"
+        onclick="location.href='{% url 'menu' %}'"
+    >
+</form>
+{% comment %} <p><a href="{% url "recipe-requirements-add" menu_item_id %}">Add Recipe Requirements</p> {% endcomment %}
+
+
+
+{% endblock %}

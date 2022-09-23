@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+{% comment %} 
 <body>
     <div>
-        <a href='{% url 'ingredients' %}'>Ingredient's List</a>
+        <a href='{% url 'table' %}'>Ingredient's List</a>
     </div>
     <div>
         <a href='{% url 'menu' %}'>Menu</a>
     </div>
-</body>
+    <div>
+        <a href='{% url 'delete' %}'>Delete an Ingredient</a>
+    </div>
+</body> 
+{% endcomment %}
+
+<ul>
+    <li><a href='{% url 'table' %}'>Ingredient's List</a></li>
+    <li><a href='{% url 'menu' %}'>Menu</a></li>
+    {% comment %} <li><a href='{% url 'revenue' %}'>Revenue</a></li> {% endcomment %}
+    <li><a href='{% url 'purchase-view' %}'>Report</a></li>
+</ul>
 
 {% endblock %}

@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <h1>Add a new Ingredient</h1>
+
+    <form action="add_ingredient/add" method="POST">
+    {% csrf_token %}
+        Ingredient Name:<br>
+        <input name='name'>
+        <br><br>
+        Ingredient Quantity:<br>
+        <input name='quantity'>
+        <br><br>
+        Units:<br>
+        <input name='units'>
+        <br><br>
+        Price per Unit:<br>
+        <input name="unit_price">
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+{% endblock %}

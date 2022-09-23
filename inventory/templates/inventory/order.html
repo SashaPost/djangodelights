@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{{ requirements }}
+<hr>
+{% for req in requirements %}
+    {{ req.ingredient }}
+    {{ req.ingredient.id }}
+    {{ req.ingredient.quantity }}
+{% endfor %}
+
+{% endblock %}

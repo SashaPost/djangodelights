@@ -3,6 +3,9 @@
 <!doctype html>
 <html lang="en">
 
+{% comment %}{% load static %}
+<link rel="stylesheet" href="{% static 'inventory/style.css' %}"> {% endcomment %}
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width", initial-scale=1>
@@ -12,9 +15,12 @@
 
 <body>
     <div>
-        <h1 onclick="location.href='{% url "index" %}'">
-            Got to Django Delights' Main Page
-        </h1>
+        {% comment %}
+        <h3 onclick="location.href='{% url "index" %}'">
+            Go to Main Page
+        </h3>
+        {% endcomment %}
+        <a href='{% url "index" %}'>Go to Main Page</a>
     </div>
     <div>
         {% block content %}
