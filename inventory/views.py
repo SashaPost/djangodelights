@@ -27,6 +27,16 @@ from django.contrib.auth import logout
 # Create your views here.
 
 
+# class IndexView(TemplateView):
+#     template_name = "inventory/index.html"
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["ingredients"] = Ingredient.objects.all()
+#         context["menu_items"] = MenuItem.objects.all()
+#         context["purchases"] = Purchase.objects.all()
+#         return context
+
 
 def indexView(request):
     template_name = 'inventory/index.html'

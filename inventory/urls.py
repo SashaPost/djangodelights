@@ -6,6 +6,8 @@ from . import views
 
 urlpatterns = [
     path("", views.indexView, name="index"),
+    # path("", views.IndexView.as_view(), name="index"),
+    
     path('table', views.ingredientTable, name='table'),
     path('add_ingredient', views.ingredientAdd, name='add_ingredient'),
     path('add_ingredient/add', views.addrecord, name='add'),
