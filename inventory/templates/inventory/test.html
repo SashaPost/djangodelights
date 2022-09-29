@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>{{ menu_item.title }} ID: {{ menu_item_id }}</p>
+
+<p>Previous value of <strong>{{ ingredient.name }}</strong> in <em>{{ menu_item.title }}</em>: {{ required_quantity }}</p>
+
+<form method='post'> 
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input
+    type="submit"
+    value="Submit"
+    >
+    <input
+    type='button'
+    value='Cancel'
+    onclick="location.href='{% url 'recipe-requirements' menu_item.id %}'"    
+    >
+</form>
+
+{% endblock %}

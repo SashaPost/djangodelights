@@ -40,7 +40,8 @@
                     Not enough ingredients for recipe!
                 {% endif %}
             </td>
-            <td><a href="#">Edit(empty)</td>
+            {% comment %} <td><a href="recipe-requirements-update/{{ given_menu_item.id }}/{{ item.1 }}">Edit(check)</td> {% endcomment %}
+            <td><a href="test/{{ given_menu_item.id }}/{{ item.1 }}">Edit(check)</td>
             <td><a href='recipe-requirements-delete/{{ given_menu_item.id }}/{{ item.1 }}'>Delete</a></td>
         </tr>
         {% endfor %}

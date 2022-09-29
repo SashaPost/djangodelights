@@ -25,9 +25,18 @@ urlpatterns = [
     # path('recipe-requirements/<int:pk>', views.recipe_req, name='recipe-requirements'),
     
     path('recipe-requirements/<int:pk>', views.recipe_requrements_table, name='recipe-requirements'),
+    path('recipe-requirements/test/<int:pk>/<int:id>', views.test, name='test'),
+    
     path('recipe-requirements/recipe-requirements-delete/<int:pk>/<int:id>', views.del_req_item, \
         name='recipe-requirements-delete'), 
+    
+    # path('recipe-requirements/recipe-requirements-update/<int:pk>/<int:id>', views.RecipeRequirementUpdate.as_view(), name='recipe-requirements-update'),
+    # path('recipe-requirements/recipe-requirements-update/<int:pk>/<int:id>', views.recipeReqUpdate, name='recipe-requirement-update'),
+    # path('recipe-requirements/recipe-requirements-update/<int:pk>/recipe-requirement-update/<int:id>', views.recipeReqItemUpdate, \
+    #     name='recipe-requirement-item-update'),
+    
     path('recipe-requirements-add/<int:pk>', views.RecipeRequirementsCreate.as_view(), name='recipe-requirements-add'),
+    
     path('order/<int:pk>', views.order, name='order'),
     
     # path('revenue', views.revenue, name='revenue'),

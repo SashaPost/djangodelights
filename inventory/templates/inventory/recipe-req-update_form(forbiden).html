@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="recipe-requirement-update/{{ upd_req.id }}" method="POST">
+    {% csrf_token %}
+    Ingredient Quantity:<br>
+    <input 
+    name='quantity' 
+    value='{{ upd_req.quantity }}'
+    >
+    <input
+    type="submit"
+    value="Submit"
+    >
+    <input
+    type="button"
+    value="Cancel"
+    onclick="location.href='{% url 'recipe-requirements' menu_item.id %}'"
+    > 
+</form>
+
+{% endblock %}

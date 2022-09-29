@@ -24,6 +24,8 @@ from django.template import loader
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 
+from .forms import RecipeRequirementUdate
+
 # Create your views here.
 
 
@@ -70,7 +72,7 @@ def delete(request, id):
 
 def update(request, id):
     upd_ingredient = Ingredient.objects.get(id=id)
-    template = loader.get_template('inventory/update.html')
+    template = loader.get_template('inventory/ingredient_update.html')
     context = {
         'upd_ingredient': upd_ingredient
         }
@@ -88,7 +90,6 @@ def updateIngredient(request, id):
     ingredient.unit_price = unit_price
     ingredient.save()
     return redirect('table')
-
 
     
 class MenuItemView(ListView):
@@ -168,6 +169,56 @@ def recipe_requrements_table(request, pk):
     }
     return HttpResponse(template.render(context, request))
 
+
+#Done!
+def test(request, pk, id):
+    
+    # template = loader.get_template('inventory/test.html')
+    menu_item_id = pk
+    ingredient_id = id
+    
+    menu_item = MenuItem.objects.get(id=menu_item_id)
+    ingredient = Ingredient.objects.get(id=ingredient_id)
+    ingredient_reqs = Ingredient.objects.get(id=ingredient_id).ingredient_req
+    
+    for requirement in ingredient_reqs.values():
+        if requirement['menu_item_id'] == menu_item_id:
+            required_quantity = requirement['quantity']
+    
+    # form = RecipeRequirementUdate()
+    if request.method == 'POST':
+        form = RecipeRequirementUdate(request.POST)
+        if form.is_valid():
+            
+            new_req_quantity = request.POST['quantity']
+            
+            req_id = int()
+            for requirement in menu_item.menu_req.values():
+                if requirement['ingredient_id'] == ingredient_id:
+                    
+                    req_id = requirement['id']
+                    upd_req = RecipeRequirements.objects.get(id=req_id)
+                    upd_req.quantity = new_req_quantity
+                    upd_req.save()
+                    
+            return redirect('recipe-requirements', pk=menu_item_id)
+             
+    else:
+        form = RecipeRequirementUdate()
+    
+    
+    context = {
+        'menu_item_id': menu_item_id,
+        'ingredient_id': ingredient_id,
+        
+        'ingredient': ingredient,
+        'menu_item': menu_item,
+        
+        'form': form,
+        'required_quantity': required_quantity,
+    }
+    
+    return render(request, 'inventory/test.html', context)
     
 
 def order(request, pk):
@@ -183,6 +234,40 @@ def order(request, pk):
     purchase.save()
     
     return redirect('menu')
+
+
+
+# class RecipeRequirementUpdate(UpdateView):
+#     model = RecipeRequirements
+#     fields = [
+#         'ingredient',
+#         'quantity',
+#     ]
+#     template_name_suffix = '-req-update_form.html'
+#     success_url = 'recipe-requirements/<int:pk>'
+
+# def recipeReqUpdate(request, pk, id):
+#     upd_req = RecipeRequirements.objects.get(id=id)
+#     menu_item = MenuItem.objects.get(id=pk)
+#     template = loader.get_template('inventory/recipe-req-update_form.html')
+#     context = {
+#         'upd_req': upd_req,
+#         'menu_item': menu_item,
+#     }
+#     return HttpResponse(template.render(context, request))
+
+# #Not working
+# #Maybe worth try through MenuItem.menu_req[id].quantity
+# def recipeReqItemUpdate(request, pk, id):
+#     # ingredient = request.POST['ingredient']
+#     quantity = request.POST['quantity']
+#     recipe_req = RecipeRequirements.objects.get(id=id)
+#     # recipe_req.ingredient = ingredient
+#     recipe_req.quantity = quantity
+#     recipe_req.save()
+#     return redirect('menu')
+#     # return redirect(f'recipe-requirements/{pk}')
+    
     
     
 def del_req_item(request, pk, id):
@@ -255,3 +340,9 @@ class PurchaseView(ListView):
         context['revenue'] = self.revenue
         return context
     
+
+
+
+def log_out(request):
+    logout(request)
+    return redirect("/")

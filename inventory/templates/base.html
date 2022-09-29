@@ -49,12 +49,12 @@
     <header>
         <div class="header-first-row">
             <h1 class="title">Django Delights<h1>
-            {% if user.is_autenticated %}
+            {% comment %} {% if user.is_autenticated %} {% endcomment %}
             <a class="logout" href="/logout">Logout</a>
-            {% endif %}
+            {% comment %} {% endif %} {% endcomment %}
         </div>
-        {% if user.is_autenticated %}
-        <p>Hi, {{ user.username }}!</p>
+        {% comment %} {% if user.is_autenticated %}
+        <p>Hi, {{ user.username }}!</p> {% endcomment %}
         <nav class="navbar">
             {% url 'index' as index_url %}
             {% url 'menu' as menu_url %}
@@ -65,7 +65,7 @@
             <a class="nav-item{% if request.path == ingredients_url %} current-page{% endif %}" href="{% url 'table' %}">Ingredients List</a>
             <a class="nav-item{% if request.path == reports_url %} current-page{% endif %}" href="{% url 'purchase-view' %}">Report</a>
         </nav>
-        {% endif %}
+        {% comment %} {% endif %} {% endcomment %}
     </header>
     <main>
         {% block content %}
