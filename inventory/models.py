@@ -71,3 +71,6 @@ class Purchase(models.Model):
     def __str__(self):
         return f'{self.menu_item}'
     
+    class Meta:
+        ordering = ['-timestamp']
+    

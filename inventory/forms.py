@@ -10,7 +10,17 @@ class RecipeRequirementUdate(forms.ModelForm):
     class Meta:
         model = RecipeRequirements
         fields = (
-            # 'ingredient',
             'quantity',
         )
     
+
+
+class RecipeRequirementsAdd(forms.ModelForm):
+    
+    class Meta:
+        model = RecipeRequirements
+        fields = (
+            'menu_item',
+            'ingredient',
+            'quantity',
+        )

@@ -12,6 +12,7 @@ from django.views.generic import (
     UpdateView, 
     DeleteView,
 )
+from django.views.generic.edit import FormMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from .models import (
@@ -21,40 +22,34 @@ from .models import (
     Purchase,
 )
 from django.template import loader
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 
-from .forms import RecipeRequirementUdate
+from .forms import RecipeRequirementUdate, RecipeRequirementsAdd
 
 # Create your views here.
 
 
-# class IndexView(TemplateView):
-#     template_name = "inventory/index.html"
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["ingredients"] = Ingredient.objects.all()
-#         context["menu_items"] = MenuItem.objects.all()
-#         context["purchases"] = Purchase.objects.all()
-#         return context
-
-
+@login_required
 def indexView(request):
     template_name = 'inventory/index.html'
     return render(request, template_name)
     
-
+@login_required
 def ingredientTable(request):
     ingredients = Ingredient.objects.all()
     template = loader.get_template('inventory/one_more_table.html')
     context = {'ingredients': ingredients}
     return HttpResponse(template.render(context, request))
 
+@login_required
 def ingredientAdd(request):
     template = loader.get_template('inventory/add_ingredient.html')
     return HttpResponse(template.render({}, request))
-    
+
+@login_required
 def addrecord(request):
     new_name = request.POST['name']
     new_quantity = request.POST['quantity']
@@ -65,11 +60,13 @@ def addrecord(request):
     new_ingredient.save()
     return redirect('table')
 
+@login_required
 def delete(request, id):
     excluded_ingredient = Ingredient.objects.get(id=id)
     excluded_ingredient.delete()
     return HttpResponseRedirect(reverse('table'))
 
+@login_required
 def update(request, id):
     upd_ingredient = Ingredient.objects.get(id=id)
     template = loader.get_template('inventory/ingredient_update.html')
@@ -78,6 +75,7 @@ def update(request, id):
         }
     return HttpResponse(template.render(context, request))
 
+@login_required
 def updateIngredient(request, id):
     name = request.POST['name']
     quantity = request.POST['quantity']
@@ -92,16 +90,17 @@ def updateIngredient(request, id):
     return redirect('table')
 
     
-class MenuItemView(ListView):
+    
+class MenuItemView(LoginRequiredMixin, ListView):
     model = MenuItem
     template_name = 'inventory/menu.html'
     context_object_name = 'menu_item'
     
-class MenuItemDel(DeleteView):
+class MenuItemDel(LoginRequiredMixin, DeleteView):
     model = MenuItem
     success_url = reverse_lazy('menu')
     
-class MenuItemUpdate(UpdateView):
+class MenuItemUpdate(LoginRequiredMixin, UpdateView):
     model = MenuItem
     fields = [
         'title',
@@ -110,24 +109,24 @@ class MenuItemUpdate(UpdateView):
     template_name = 'inventory/menuitem-update_form.html'
     success_url = '/menu'
     
-class MenuItemCreate(CreateView):
+class MenuItemCreate(LoginRequiredMixin, CreateView):
     model = MenuItem
     fields = [
         'title',
         'price',
     ]
     template_name = 'inventory/menuitem-create_form.html'
-    success_url = '/menu'
+    success_url = ''
     
     
     
-# class RecipeRequirementsListView(ListView):
-#     model = RecipeRequirements
-#     template_name = 'inventory/recipe_req.html'
+class RecipeRequirementsCreate(LoginRequiredMixin, CreateView):
     
-    
-    
-class RecipeRequirementsCreate(CreateView):
+    def get_initial(self, **kwargs):
+        initial = super().get_initial()
+        initial['menu_item'] = self.kwargs['pk']
+        return initial
+        
     model = RecipeRequirements
     fields = [
         'menu_item',
@@ -136,16 +135,15 @@ class RecipeRequirementsCreate(CreateView):
     ]
     template_name = 'inventory/recipe_req-add.html'
     success_url = '/menu'
-
+    
+    
 
 
 def split_list(lst, step):
     for i in range(0, len(lst), step):
         yield lst[i:i + step]
 
-def division(num1, num2):
-    return (num1 // num2)
-
+@login_required
 def recipe_requrements_table(request, pk):
     
     template = loader.get_template('inventory/recipe-req.html')
@@ -170,10 +168,9 @@ def recipe_requrements_table(request, pk):
     return HttpResponse(template.render(context, request))
 
 
-#Done!
-def test(request, pk, id):
+@login_required
+def edit_requirement(request, pk, id):
     
-    # template = loader.get_template('inventory/test.html')
     menu_item_id = pk
     ingredient_id = id
     
@@ -185,7 +182,6 @@ def test(request, pk, id):
         if requirement['menu_item_id'] == menu_item_id:
             required_quantity = requirement['quantity']
     
-    # form = RecipeRequirementUdate()
     if request.method == 'POST':
         form = RecipeRequirementUdate(request.POST)
         if form.is_valid():
@@ -218,12 +214,12 @@ def test(request, pk, id):
         'required_quantity': required_quantity,
     }
     
-    return render(request, 'inventory/test.html', context)
+    return render(request, 'inventory/recipe-req-update.html', context)
     
 
+@login_required
 def order(request, pk):
     menu_item = MenuItem.objects.get(id=pk)
-    # requirements = RecipeRequirements.objects.filter(menu_item=pk).values()
     requirements = menu_item.menu_req.all()
     purchase = Purchase(menu_item=menu_item)
     
@@ -236,40 +232,9 @@ def order(request, pk):
     return redirect('menu')
 
 
-
-# class RecipeRequirementUpdate(UpdateView):
-#     model = RecipeRequirements
-#     fields = [
-#         'ingredient',
-#         'quantity',
-#     ]
-#     template_name_suffix = '-req-update_form.html'
-#     success_url = 'recipe-requirements/<int:pk>'
-
-# def recipeReqUpdate(request, pk, id):
-#     upd_req = RecipeRequirements.objects.get(id=id)
-#     menu_item = MenuItem.objects.get(id=pk)
-#     template = loader.get_template('inventory/recipe-req-update_form.html')
-#     context = {
-#         'upd_req': upd_req,
-#         'menu_item': menu_item,
-#     }
-#     return HttpResponse(template.render(context, request))
-
-# #Not working
-# #Maybe worth try through MenuItem.menu_req[id].quantity
-# def recipeReqItemUpdate(request, pk, id):
-#     # ingredient = request.POST['ingredient']
-#     quantity = request.POST['quantity']
-#     recipe_req = RecipeRequirements.objects.get(id=id)
-#     # recipe_req.ingredient = ingredient
-#     recipe_req.quantity = quantity
-#     recipe_req.save()
-#     return redirect('menu')
-#     # return redirect(f'recipe-requirements/{pk}')
     
     
-    
+@login_required
 def del_req_item(request, pk, id):
     menu_item_id = pk
     ingredient_id = id
@@ -286,35 +251,7 @@ def del_req_item(request, pk, id):
 
 
 
-
-# def revenue(request):
-    
-#     dirty_income = 0
-#     menu_ingredients_price = 0
-#     all_purchases = Purchase.objects.all().values()
-    
-#     for purchase in all_purchases:
-#         menu_item = MenuItem.objects.get(id=purchase['menu_item_id'])
-#         # menu_item_info = MenuItem.objects.values()
-#         dirty_income += menu_item.price
-        
-#         menu_reqs = menu_item.menu_req.all()
-#         for req in menu_reqs:
-#             menu_ingredients_price += (Ingredient.objects.get(name=req.ingredient).unit_price * req.quantity)
-        
-#     template = loader.get_template('inventory/revenue.html')
-#     context = {
-#         'all_purchases': all_purchases,
-#         'menu_ingredients_price': menu_ingredients_price,
-#         'dirty_income': dirty_income,
-#         'menu_reqs': menu_reqs,
-        
-#     }
-#     return HttpResponse(template.render(context, request))
-
-
-
-class PurchaseView(ListView):
+class PurchaseView(LoginRequiredMixin, ListView):
     model = Purchase
     
     def revenue(self):
@@ -340,9 +277,11 @@ class PurchaseView(ListView):
         context['revenue'] = self.revenue
         return context
     
+    
+    
 
 
-
+@login_required
 def log_out(request):
     logout(request)
     return redirect("/")

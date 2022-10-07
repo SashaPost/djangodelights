@@ -14,58 +14,28 @@
     {% endblock %}
 </head>
 
-
-
-{% comment %} 
-<link rel="stylesheet" href="{% static 'inventory/style.css' %}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width", initial-scale=1>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <title>Django Delights</title>
-</head> 
-{% endcomment %}
-
-{% comment %} 
-<body>
-    <div>
-        <a href='{% url "index" %}'>Go to Main Page</a>
-    </div>
-    <div>
-        {% block content %}
-
-        {% endblock %}
-    </div>
-    <div>
-        <a href='{% url 'index' %}'>Back to the Main Page</a>
-    </div>
-</body> {% endcomment %}
-
-
-
 <body>
     <div class="app">
     <header>
         <div class="header-first-row">
             <h1 class="title">Django Delights<h1>
-            {% comment %} {% if user.is_autenticated %} {% endcomment %}
+            {% if user.is_authenticated %}
             <a class="logout" href="/logout">Logout</a>
-            {% comment %} {% endif %} {% endcomment %}
+            {% endif %}
         </div>
-        {% comment %} {% if user.is_autenticated %}
-        <p>Hi, {{ user.username }}!</p> {% endcomment %}
+        {% if user.is_authenticated %}
+        <p>Hi, {{ user.username }}!</p>
         <nav class="navbar">
-            {% url 'index' as index_url %}
+            {% comment %} {% url 'index' as index_url %} {% endcomment %}
             {% url 'menu' as menu_url %}
             {% url 'table' as ingredients_url %}
             {% url 'purchase-view' as reports_url %}
-            <a class="nav-item{% if request.path == index_url %} current-page{% endif %}" href="{% url 'index' %}">Home</a>
+            {% comment %} <a class="nav-item{% if request.path == index_url %} current-page{% endif %}" href="{% url 'index' %}">Home</a> {% endcomment %}
             <a class="nav-item{% if request.path == menu_url %} current-page{% endif %}" href="{% url 'menu' %}">Menu</a>
             <a class="nav-item{% if request.path == ingredients_url %} current-page{% endif %}" href="{% url 'table' %}">Ingredients List</a>
             <a class="nav-item{% if request.path == reports_url %} current-page{% endif %}" href="{% url 'purchase-view' %}">Report</a>
         </nav>
-        {% comment %} {% endif %} {% endcomment %}
+        {% endif %}
     </header>
     <main>
         {% block content %}

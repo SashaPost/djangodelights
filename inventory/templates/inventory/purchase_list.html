@@ -2,14 +2,15 @@
 
 {% block content %}
 
-<p>Revenue: ${{ revenue.dirty_income }}</p>
-<p>Total Cost: ${{ revenue.menu_ingredients_price }}</p>
-<p>Profit: ${{ revenue.profit }}
+<h2>Totals</h2>
+<div style="color: green;">Revenue: ${{ revenue.dirty_income|stringformat:".2f" }}</div>
+<div style="color: red;">Cost: ${{ revenue.menu_ingredients_price|stringformat:".2f" }}</div>
+<div style="color: blue;">Profit: ${{ revenue.profit|stringformat:".2f" }}</div>
     {% if revenue.profit < 0 %}
-        Things look blue. Maybe it's time to close?..
+        <div style="font-style: italic; color: red;">Things look blue. Maybe it's time to close (<strong>or reconsider the prices</strong>)?..</div>
     {% endif %}
 </p>
-
+<hr>
 {% if purchase_list %}
     <table border='0'>
         <thead>
@@ -34,8 +35,5 @@
 {% else %}
     <h3>Nothing was sold yet</h3>
 {% endif %}
-
-{% comment %} {{ revenue }} {% endcomment %}
-{% comment %} {{ revenue.dirty_income }} {% endcomment %}
 
 {% endblock %}

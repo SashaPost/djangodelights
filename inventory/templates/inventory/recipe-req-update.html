@@ -4,7 +4,7 @@
 
 <p>{{ menu_item.title }} ID: {{ menu_item_id }}</p>
 
-<p>Previous value of <strong>{{ ingredient.name }}</strong> in <em>{{ menu_item.title }}</em>: {{ required_quantity }}</p>
+<p>Current value of <strong>{{ ingredient.name }}</strong> in <em>{{ menu_item.title }}</em>: {{ required_quantity }}</p>
 
 <form method='post'> 
     {% csrf_token %}
