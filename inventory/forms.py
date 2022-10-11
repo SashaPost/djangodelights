@@ -1,7 +1,17 @@
 from django import forms
 
-from .models import RecipeRequirements
+from .models import MenuItem, RecipeRequirements
 
+
+
+class MenuItemCreateForm(forms.ModelForm):
+    
+    class Meta:
+        model = MenuItem
+        fields = (
+            'title',
+            'price',
+        )
 
 
 

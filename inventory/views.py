@@ -107,7 +107,7 @@ class MenuItemUpdate(LoginRequiredMixin, UpdateView):
         'price',
     ]
     template_name = 'inventory/menuitem-update_form.html'
-    success_url = '/menu'
+    success_url = ''
     
 class MenuItemCreate(LoginRequiredMixin, CreateView):
     model = MenuItem
@@ -134,7 +134,7 @@ class RecipeRequirementsCreate(LoginRequiredMixin, CreateView):
         'quantity',
     ]
     template_name = 'inventory/recipe_req-add.html'
-    success_url = '/menu'
+    success_url = reverse_lazy('menu')
     
     
 
@@ -168,6 +168,7 @@ def recipe_requrements_table(request, pk):
     return HttpResponse(template.render(context, request))
 
 
+
 @login_required
 def edit_requirement(request, pk, id):
     
@@ -181,27 +182,20 @@ def edit_requirement(request, pk, id):
     for requirement in ingredient_reqs.values():
         if requirement['menu_item_id'] == menu_item_id:
             required_quantity = requirement['quantity']
-    
     if request.method == 'POST':
         form = RecipeRequirementUdate(request.POST)
         if form.is_valid():
-            
             new_req_quantity = request.POST['quantity']
-            
             req_id = int()
             for requirement in menu_item.menu_req.values():
                 if requirement['ingredient_id'] == ingredient_id:
-                    
                     req_id = requirement['id']
                     upd_req = RecipeRequirements.objects.get(id=req_id)
                     upd_req.quantity = new_req_quantity
                     upd_req.save()
-                    
             return redirect('recipe-requirements', pk=menu_item_id)
-             
     else:
         form = RecipeRequirementUdate()
-    
     
     context = {
         'menu_item_id': menu_item_id,
@@ -213,9 +207,9 @@ def edit_requirement(request, pk, id):
         'form': form,
         'required_quantity': required_quantity,
     }
-    
     return render(request, 'inventory/recipe-req-update.html', context)
     
+
 
 @login_required
 def order(request, pk):
@@ -279,7 +273,6 @@ class PurchaseView(LoginRequiredMixin, ListView):
     
     
     
-
 
 @login_required
 def log_out(request):

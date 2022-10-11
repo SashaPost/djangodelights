@@ -30,7 +30,8 @@ class MenuItem(models.Model):
     price = models.FloatField(default=0.0)
     
     def get_absolute_url(self):
-        return reverse("menu-item", kwargs={"pk": self.pk})
+    #     return reverse("menu-item", kwargs={"pk": self.pk})
+        return reverse("menu")
     
     def __str__(self):
         return f'{self.title}'

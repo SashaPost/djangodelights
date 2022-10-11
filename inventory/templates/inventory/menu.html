@@ -16,29 +16,31 @@
     <li>{{ item.title }}</li>
     <li>price: {{ item.price }}</li>
     <li>ID: {{ item.id }}</li>
+    {% if item.available == True %}
+        <input
+            value="Order"
+            type="button"
+            onclick="location.href='{% url "order" item.id %}'"
+            style="color: green;"
+        />
+    {% else %}
+        <p>Not enough ingredients</p>
+    {% endif %}
     <input
         value="Update item"
         type="button"
         onclick="location.href='{% url "menu-item-update" item.id %}'"
     />
     <input
-        value="Delete item"
-        type="button"
-        onclick="location.href='{% url "menu-item-delete" item.id %}'"
-    />
-    {% if item.available == True %}
-        <input
-            value="Order"
-            type="button"
-            onclick="location.href='{% url "order" item.id %}'"
-        />
-    {% else %}
-        <p>Not enough ingredients</p>
-    {% endif %}
-    <input
         value="Recipe Requirements"
         type="button"
         onclick="location.href='{% url "recipe-requirements" item.id %}'"
+    />
+    <input
+        value="Delete item"
+        type="button"
+        onclick="location.href='{% url "menu-item-delete" item.id %}'"
+        style="color: red;"
     />
     {% comment %} <p><a href="{% url "recipe-requirements-add" item.id %}">Add Recipe Requirements</p> {% endcomment %}
     {% comment %} <p><a href="{% url "recipe-requirements" item.id %}">Recipe Requirements</a></p> {% endcomment %}
