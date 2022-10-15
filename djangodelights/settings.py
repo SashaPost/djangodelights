@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+# from distutils.debug import DEBUG
 import os
 from pathlib import Path
 
@@ -21,10 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pcut7god+_n*!q+81xpa@8+s%1c2j5nzg)731i)9+gq5$rsmka'
+# SECRET_KEY = 'django-insecure-pcut7god+_n*!q+81xpa@8+s%1c2j5nzg)731i)9+gq5$rsmka'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', \
+    'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = []
 
