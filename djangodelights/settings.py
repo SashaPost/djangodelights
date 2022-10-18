@@ -47,6 +47,12 @@ INSTALLED_APPS = [
     'django_tables2',
 ]
 
+CSRF_COOKIE_SECURE = True
+
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
