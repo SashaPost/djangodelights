@@ -6,3 +6,11 @@
 
 # Personal records
 .TODO.md
+
+.env/
+.venv/
+env/
+venv/
+*.env
+
+*.pyc
