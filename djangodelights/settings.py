@@ -13,12 +13,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 # from distutils.debug import DEBUG
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(os.path.join(BASE_DIR, ".env"))
+# load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,9 +26,9 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-pcut7god+_n*!q+81xpa@8+s%1c2j5nzg)731i)9+gq5$rsmka'
-# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', \
-#     'dd521d6a11cdfd7554c07d3ec31cd2bbaf69e90a062bba55')
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', \
+    'dd521d6a11cdfd7554c07d3ec31cd2bbaf69e90a062bba55')
+# SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -176,3 +176,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # import django_heroku
 
 # django_heroku.settings(locals())
+
+SECURE_SSL_REDIRECT = False
