@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'inventory',
-    'django_tables2',
+    # 'django_tables2',
 ]
 
 CSRF_COOKIE_SECURE = True
